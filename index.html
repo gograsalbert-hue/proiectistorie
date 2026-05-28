@@ -1,0 +1,1162 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Bismarcks Dilemma</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+body{
+
+font-family:'Cinzel',serif;
+
+background:
+linear-gradient(rgba(0,0,0,0.82),rgba(0,0,0,0.92)),
+url("https://upload.wikimedia.org/wikipedia/commons/1/1c/Berlin_unter_den_Linden_1900.jpg");
+
+background-size:cover;
+background-position:center;
+background-attachment:fixed;
+
+color:#f3e6c0;
+
+padding:20px;
+
+overflow-x:hidden;
+
+}
+
+.container{
+
+max-width:1450px;
+margin:auto;
+
+}
+
+header{
+
+text-align:center;
+margin-bottom:25px;
+
+}
+
+header h1{
+
+font-size:72px;
+color:gold;
+
+text-shadow:0 0 25px rgba(255,215,0,0.4);
+
+margin-bottom:10px;
+
+}
+
+header p{
+
+font-size:20px;
+color:#ddd;
+
+}
+
+.stats{
+
+display:grid;
+
+grid-template-columns:repeat(6,1fr);
+
+gap:15px;
+
+margin-bottom:25px;
+
+}
+
+.stat{
+
+background:rgba(0,0,0,0.72);
+
+padding:20px;
+
+border-radius:18px;
+
+border:1px solid rgba(255,215,0,0.25);
+
+text-align:center;
+
+}
+
+.stat h3{
+
+font-size:15px;
+margin-bottom:10px;
+
+color:#ccc;
+
+}
+
+.stat span{
+
+font-size:32px;
+font-weight:bold;
+
+color:gold;
+
+}
+
+.layout{
+
+display:grid;
+
+grid-template-columns:2fr 1fr;
+
+gap:20px;
+
+}
+
+.card{
+
+background:rgba(0,0,0,0.75);
+
+border-radius:24px;
+
+overflow:hidden;
+
+border:1px solid rgba(255,215,0,0.25);
+
+animation:fade 0.4s ease;
+
+}
+
+.card img{
+
+width:100%;
+height:450px;
+
+object-fit:cover;
+
+}
+
+.content{
+
+padding:35px;
+
+}
+
+.content h2{
+
+font-size:42px;
+
+margin-bottom:20px;
+
+color:gold;
+
+}
+
+.content p{
+
+font-size:19px;
+
+line-height:1.8;
+
+color:#eee;
+
+}
+
+#choices{
+
+margin-top:30px;
+
+display:grid;
+gap:15px;
+
+}
+
+button{
+
+padding:18px;
+
+font-size:18px;
+
+border:none;
+
+border-radius:14px;
+
+cursor:pointer;
+
+font-family:'Cinzel',serif;
+
+background:
+linear-gradient(45deg,#8b6914,#d4af37);
+
+color:white;
+
+transition:0.25s;
+
+}
+
+button:hover{
+
+transform:translateY(-3px);
+
+box-shadow:0 0 20px rgba(255,215,0,0.4);
+
+}
+
+.sidebar{
+
+display:grid;
+gap:20px;
+
+}
+
+.panel{
+
+background:rgba(0,0,0,0.72);
+
+border-radius:18px;
+
+padding:22px;
+
+border:1px solid rgba(255,215,0,0.25);
+
+}
+
+.panel h3{
+
+margin-bottom:15px;
+
+color:gold;
+
+font-size:24px;
+
+}
+
+.log{
+
+max-height:320px;
+
+overflow:auto;
+
+line-height:1.7;
+
+}
+
+.log div{
+
+padding-bottom:12px;
+
+margin-bottom:12px;
+
+border-bottom:1px solid rgba(255,255,255,0.08);
+
+}
+
+.law{
+
+padding:10px;
+
+margin-bottom:10px;
+
+background:rgba(255,215,0,0.08);
+
+border-radius:10px;
+
+}
+
+.ending{
+
+padding:50px;
+
+text-align:center;
+
+}
+
+.ending h2{
+
+font-size:60px;
+
+margin-bottom:20px;
+
+color:gold;
+
+}
+
+@keyframes fade{
+
+from{
+opacity:0;
+transform:translateY(15px);
+}
+
+to{
+opacity:1;
+transform:translateY(0);
+}
+
+}
+
+@media(max-width:1100px){
+
+.layout{
+grid-template-columns:1fr;
+}
+
+.stats{
+grid-template-columns:1fr 1fr 1fr;
+}
+
+}
+
+@media(max-width:700px){
+
+.stats{
+grid-template-columns:1fr 1fr;
+}
+
+header h1{
+font-size:44px;
+}
+
+.card img{
+height:240px;
+}
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<header>
+
+<h1>Bismarcks Dilemma</h1>
+
+<p>
+Regiere das Deutsche Reich zwischen Revolution, Krieg und politischem Chaos.
+</p>
+
+</header>
+
+<div class="stats">
+
+<div class="stat">
+<h3>👷 Arbeiter</h3>
+<span id="arbeiter">50</span>
+</div>
+
+<div class="stat">
+<h3>👑 Kaiser</h3>
+<span id="kaiser">50</span>
+</div>
+
+<div class="stat">
+<h3>🏭 Wirtschaft</h3>
+<span id="wirtschaft">50</span>
+</div>
+
+<div class="stat">
+<h3>⚔ Militär</h3>
+<span id="militaer">60</span>
+</div>
+
+<div class="stat">
+<h3>💰 Geld</h3>
+<span id="geld">1200</span>
+</div>
+
+<div class="stat">
+<h3>⚠ Revolution</h3>
+<span id="revolution">20</span>
+</div>
+
+</div>
+
+<div class="layout">
+
+<div class="card">
+
+<img id="eventImage" src="">
+
+<div class="content">
+
+<h2 id="eventTitle"></h2>
+
+<p id="eventText"></p>
+
+<div id="choices"></div>
+
+</div>
+
+</div>
+
+<div class="sidebar">
+
+<div class="panel">
+
+<h3>Deutsches Reich</h3>
+
+<p><b>Jahr:</b> <span id="jahr">1878</span></p>
+<br>
+
+<p><b>Inflation:</b> <span id="inflation">5</span>%</p>
+<br>
+
+<p><b>Außenpolitik:</b> <span id="aussenpolitik">50</span></p>
+<br>
+
+<p><b>Arbeitslosigkeit:</b> <span id="arbeitslosigkeit">10</span>%</p>
+
+</div>
+
+<div class="panel">
+
+<h3>Gesetze</h3>
+
+<div id="laws"></div>
+
+</div>
+
+<div class="panel">
+
+<h3>Chronik</h3>
+
+<div class="log" id="log"></div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<script>
+
+const state = {
+
+jahr:1878,
+
+arbeiter:50,
+kaiser:50,
+wirtschaft:50,
+militaer:60,
+geld:1200,
+revolution:20,
+
+inflation:5,
+aussenpolitik:50,
+arbeitslosigkeit:10,
+
+gesetze:[]
+
+};
+
+const events = [
+
+{
+
+title:"Attentat auf Kaiser Wilhelm I",
+
+image:
+"https://upload.wikimedia.org/wikipedia/commons/8/8a/Anton_von_Werner_-_Proklamation_des_Deutschen_Kaiserreiches.jpg",
+
+text:
+"Ein Attentäter schießt auf Kaiser Wilhelm I. Zeitungen und konservative Politiker verlangen drastische Maßnahmen gegen Sozialisten.",
+
+choices:[
+
+{
+
+text:"Sozialisten verfolgen",
+
+effect(){
+
+state.kaiser += 15;
+state.revolution += 15;
+state.arbeiter -= 15;
+
+addLaw("Anti-Sozialistengesetz");
+
+log(
+"Die Regierung beginnt eine Verhaftungswelle gegen Sozialisten."
+);
+
+}
+
+},
+
+{
+
+text:"Die Lage beruhigen",
+
+effect(){
+
+state.arbeiter += 5;
+state.kaiser -= 5;
+
+log(
+"Du versuchst eine Eskalation zu verhindern."
+);
+
+}
+
+},
+
+{
+
+text:"Notstand ausrufen",
+
+effect(){
+
+state.kaiser += 20;
+state.revolution += 20;
+state.wirtschaft -= 10;
+state.militaer += 10;
+
+log(
+"Das Reich wird autoritärer."
+);
+
+}
+
+}
+
+]
+
+},
+
+{
+
+title:"Großer Arbeiterstreik",
+
+image:
+"https://upload.wikimedia.org/wikipedia/commons/8/84/Bundesarchiv_Bild_183-R12707%2C_Berlin%2C_Streikende_Arbeiter.jpg",
+
+text:
+"Zehntausende Arbeiter verlassen die Fabriken im Ruhrgebiet. Die Industrie steht still.",
+
+choices:[
+
+{
+
+text:"Polizei schicken",
+
+effect(){
+
+state.arbeiter -= 20;
+state.revolution += 15;
+state.kaiser += 10;
+
+log(
+"Die Polizei löst die Proteste brutal auf."
+);
+
+}
+
+},
+
+{
+
+text:"Löhne erhöhen",
+
+effect(){
+
+state.arbeiter += 20;
+state.geld -= 250;
+state.wirtschaft -= 5;
+
+log(
+"Die Regierung akzeptiert höhere Löhne."
+);
+
+}
+
+},
+
+{
+
+text:"Mit Gewerkschaften verhandeln",
+
+effect(){
+
+state.arbeiter += 10;
+state.kaiser -= 5;
+
+log(
+"Minister treffen sich mit Arbeitervertretern."
+);
+
+}
+
+}
+
+]
+
+},
+
+{
+
+title:"Der Kulturkampf",
+
+image:
+"https://upload.wikimedia.org/wikipedia/commons/e/e5/Bundesarchiv_Bild_146-1972-062-59%2C_Otto_von_Bismarck.jpg",
+
+text:
+"Katholische Gruppen kritisieren die Macht Preußens. Liberale Politiker fordern härtere Gesetze gegen die Kirche.",
+
+choices:[
+
+{
+
+text:"Kirche einschränken",
+
+effect(){
+
+state.kaiser += 10;
+state.revolution += 10;
+state.aussenpolitik -= 5;
+
+addLaw("Kirchengesetze");
+
+log(
+"Neue Gesetze begrenzen den Einfluss der Kirche."
+);
+
+}
+
+},
+
+{
+
+text:"Kompromiss suchen",
+
+effect(){
+
+state.arbeiter += 5;
+state.kaiser -= 5;
+
+log(
+"Die Spannungen sinken kurzfristig."
+);
+
+}
+
+},
+
+{
+
+text:"Katholiken unterstützen",
+
+effect(){
+
+state.kaiser -= 10;
+state.revolution -= 5;
+
+log(
+"Konservative Kräfte feiern deine Entscheidung."
+);
+
+}
+
+}
+
+]
+
+},
+
+{
+
+title:"Wirtschaftskrise",
+
+image:
+"https://upload.wikimedia.org/wikipedia/commons/0/0c/Boerse.jpg",
+
+text:
+"Die deutsche Wirtschaft gerät in eine schwere Krise. Banken brechen zusammen und Arbeitslosigkeit steigt.",
+
+choices:[
+
+{
+
+text:"Steuern erhöhen",
+
+effect(){
+
+state.geld += 300;
+state.arbeiter -= 10;
+
+log(
+"Neue Steuern retten die Staatskasse."
+);
+
+}
+
+},
+
+{
+
+text:"Sozialhilfe einführen",
+
+effect(){
+
+state.arbeiter += 15;
+state.geld -= 250;
+
+addLaw("Sozialhilfe");
+
+log(
+"Arme Familien erhalten staatliche Hilfe."
+);
+
+}
+
+},
+
+{
+
+text:"Die Wirtschaft sich selbst retten lassen",
+
+effect(){
+
+state.wirtschaft -= 15;
+state.revolution += 15;
+
+log(
+"Die Krise verschlimmert sich."
+);
+
+}
+
+}
+
+]
+
+},
+
+{
+
+title:"Spannungen mit Frankreich",
+
+image:
+"https://upload.wikimedia.org/wikipedia/commons/5/50/Prussian_infantry_attack_at_Gravelotte.jpg",
+
+text:
+"Französische Politiker kritisieren Deutschland offen. Generäle fordern eine militärische Antwort.",
+
+choices:[
+
+{
+
+text:"Militär stärken",
+
+effect(){
+
+state.militaer += 20;
+state.geld -= 350;
+state.aussenpolitik -= 15;
+
+log(
+"Neue Waffen und Soldaten stärken die Armee."
+);
+
+}
+
+},
+
+{
+
+text:"Diplomatische Gespräche",
+
+effect(){
+
+state.aussenpolitik += 15;
+
+log(
+"Deutschland sucht eine friedliche Lösung."
+);
+
+}
+
+},
+
+{
+
+text:"Frankreich bedrohen",
+
+effect(){
+
+state.militaer += 10;
+state.revolution += 5;
+state.aussenpolitik -= 20;
+
+log(
+"Europa betrachtet Deutschland mit Misstrauen."
+);
+
+}
+
+}
+
+]
+
+}
+
+];
+
+let currentEvent = 0;
+
+const logElement =
+document.getElementById("log");
+
+function log(text){
+
+const entry =
+document.createElement("div");
+
+entry.textContent = text;
+
+logElement.prepend(entry);
+
+}
+
+function addLaw(name){
+
+state.gesetze.push(name);
+
+renderLaws();
+
+}
+
+function renderLaws(){
+
+const laws =
+document.getElementById("laws");
+
+laws.innerHTML = "";
+
+state.gesetze.forEach(law=>{
+
+laws.innerHTML +=
+`<div class="law">${law}</div>`;
+
+});
+
+}
+
+function updateStats(){
+
+document.getElementById("arbeiter").textContent =
+state.arbeiter;
+
+document.getElementById("kaiser").textContent =
+state.kaiser;
+
+document.getElementById("wirtschaft").textContent =
+state.wirtschaft;
+
+document.getElementById("militaer").textContent =
+state.militaer;
+
+document.getElementById("geld").textContent =
+state.geld;
+
+document.getElementById("revolution").textContent =
+state.revolution;
+
+document.getElementById("jahr").textContent =
+state.jahr;
+
+document.getElementById("inflation").textContent =
+state.inflation;
+
+document.getElementById("aussenpolitik").textContent =
+state.aussenpolitik;
+
+document.getElementById("arbeitslosigkeit").textContent =
+state.arbeitslosigkeit;
+
+}
+
+function showEvent(){
+
+const event =
+events[currentEvent];
+
+document.getElementById("eventTitle").textContent =
+event.title;
+
+document.getElementById("eventText").textContent =
+event.text;
+
+document.getElementById("eventImage").src =
+event.image;
+
+const choices =
+document.getElementById("choices");
+
+choices.innerHTML = "";
+
+event.choices.forEach(choice=>{
+
+const button =
+document.createElement("button");
+
+button.textContent =
+choice.text;
+
+button.onclick = ()=>{
+
+choice.effect();
+
+nextEvent();
+
+};
+
+choices.appendChild(button);
+
+});
+
+updateStats();
+
+}
+
+function randomEffects(){
+
+const x = Math.random();
+
+if(x < 0.25){
+
+state.inflation += 2;
+
+log(
+"Die Preise im Reich steigen."
+);
+
+}
+
+else if(x < 0.5){
+
+state.wirtschaft += 5;
+state.geld += 100;
+
+log(
+"Neue Fabriken erhöhen die Produktion."
+);
+
+}
+
+else if(x < 0.75){
+
+state.revolution += 5;
+
+log(
+"Radikale Gruppen verbreiten Propaganda."
+);
+
+}
+
+else{
+
+state.arbeiter += 3;
+
+log(
+"Eine gute Ernte verbessert die Stimmung im Reich."
+);
+
+}
+
+}
+
+function normalize(){
+
+for(let key in state){
+
+if(typeof state[key] === "number"){
+
+if(state[key] > 100 &&
+key !== "geld" &&
+key !== "jahr"){
+
+state[key] = 100;
+
+}
+
+if(state[key] < 0){
+
+state[key] = 0;
+
+}
+
+}
+
+}
+
+}
+
+function gameOver(title,text){
+
+document.querySelector(".card").innerHTML =
+
+`
+<div class="ending">
+
+<h2>${title}</h2>
+
+<p>${text}</p>
+
+<br><br>
+
+<button onclick="location.reload()">
+Neues Spiel
+</button>
+
+</div>
+`;
+
+}
+
+function checkGameOver(){
+
+if(state.revolution >= 100){
+
+gameOver(
+"Die Revolution",
+"Arbeiter und Revolutionäre stürzen das Deutsche Reich."
+);
+
+return true;
+
+}
+
+if(state.kaiser <= 0){
+
+gameOver(
+"Sturz des Kaisers",
+"Der Kaiser verliert jede Unterstützung."
+);
+
+return true;
+
+}
+
+if(state.geld <= 0){
+
+gameOver(
+"Staatsbankrott",
+"Die deutsche Wirtschaft bricht zusammen."
+);
+
+return true;
+
+}
+
+return false;
+
+}
+
+function nextEvent(){
+
+currentEvent++;
+
+state.jahr++;
+
+randomEffects();
+
+normalize();
+
+if(checkGameOver()) return;
+
+if(currentEvent >= events.length){
+
+ending();
+return;
+
+}
+
+showEvent();
+
+}
+
+function ending(){
+
+let title = "";
+let text = "";
+
+if(state.kaiser >= 80){
+
+title = "Der Eiserne Kanzler";
+
+text =
+"Du regierst Deutschland mit harter Hand und sicherst die Macht des Kaiserreiches.";
+
+}
+
+else if(state.arbeiter >= 80){
+
+title = "Der Sozialreformer";
+
+text =
+"Deine Reformen stabilisieren das Reich langfristig.";
+
+}
+
+else{
+
+title = "Der Vermittler";
+
+text =
+"Du hältst Deutschland zwischen Revolution und Ordnung zusammen.";
+
+}
+
+document.querySelector(".card").innerHTML =
+
+`
+<div class="ending">
+
+<h2>${title}</h2>
+
+<p>${text}</p>
+
+<br><br>
+
+<p>
+
+Historisch führte Bismarck Krankenversicherung,
+Unfallversicherung und Altersversicherung ein.
+
+</p>
+
+<br><br>
+
+<button onclick="location.reload()">
+Neues Spiel
+</button>
+
+</div>
+`;
+
+}
+
+showEvent();
+
+</script>
+
+</body>
+
+</html>
